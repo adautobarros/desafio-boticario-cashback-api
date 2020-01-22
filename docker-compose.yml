@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+  boticario.cashback.api:
+    image: ${DOCKER_REGISTRY-}boticario-cashbackapi
+    build:
+      context: .
+      dockerfile: src/Boticario.Cashback.Api/Dockerfile
+    depends_on:
+      - mongo
+    networks: 
+      - cashback
+
+  mongo:
+    image: mongo:4.2
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb:/data
+    networks: 
+      - cashback
+
+networks: 
+  cashback:
+
+volumes:
+  mongodb:
